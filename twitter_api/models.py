@@ -5,7 +5,7 @@ import re
 import tweepy
 from django.db import models
 from django.db.models.fields import FieldDoesNotExist
-from django.db.models.related import RelatedObject
+from django.db.models.fields.related import ForeignObjectRel
 from django.utils import timezone
 from django.utils.translation import ugettext as _
 from m2m_history.fields import ManyToManyHistoryField
@@ -285,7 +285,7 @@ class TwitterModel(models.Model):
                 log.debug('Field with name "%s" doesn\'t exist in the model %s' % (key, type(self)))
                 continue
 
-            if isinstance(field, RelatedObject) and value:
+            if isinstance(field, ForeignObjectRel) and value:
                 for item in value:
                     rel_instance = field.model.remote.parse_response_object(item)
                     self._external_links_post_save += [(field.field.name, rel_instance)]
