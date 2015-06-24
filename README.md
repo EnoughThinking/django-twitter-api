@@ -20,8 +20,8 @@ Add into `settings.py` lines:
 
     # oauth-tokens settings
     OAUTH_TOKENS_HISTORY = True                                        # to keep in DB expired access tokens
-    OAUTH_TOKENS_TWITTER_CLIENT_ID = ''                                # application ID
-    OAUTH_TOKENS_TWITTER_CLIENT_SECRET = ''                            # application secret key
+    OAUTH_TOKENS_TWITTER_CLIENT_ID = ''                                # Consumer Key (API Key) in https://apps.twitter.com/app/XXXXX/keys
+    OAUTH_TOKENS_TWITTER_CLIENT_SECRET = ''                            # Consumer Secret (API Secret) in https://apps.twitter.com/app/XXXXX/keys
     OAUTH_TOKENS_TWITTER_USERNAME = ''                                 # user login
     OAUTH_TOKENS_TWITTER_PASSWORD = ''                                 # user password
 
@@ -29,15 +29,20 @@ Add into `settings.py` lines:
 
 ### Simple API request
 
-    >>> from twitter_api.utils import api
-    >>> response = api('get_status', 327926550815207424)
+    >>> import twitter_api
+    >>> response = twitter_api.api.api_call('get_status', 327926550815207424)
     >>> response.text
     '@mrshoranweyhey Thanks for the love! How about a follow for a follow? :) ^LF'
     >>> response.source_url
     'http://www.exacttarget.com/social'
-    >>> response = api('get_user', 'BarackObama')
+    >>> response = twitter_api.api.api_call('get_user', 'BarackObama')
     >>> response.id, response.name
     (813286, 'Barack Obama')
+
+### Change status
+
+    >>> import twitter_api
+    >>> twitter_api.api.api_call('update_status', status='test')  
 
 ### Fetch status by ID
 
